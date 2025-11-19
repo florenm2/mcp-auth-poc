@@ -1,0 +1,21 @@
+{
+  "name": "mcp-auth-poc",
+  "version": "1.0.0",
+  "description": "Proof of concept for MCP with Dynamic Client Registration and OAuth",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "start:server": "npm run start -w server",
+    "start:client": "npm run start -w client"
+  },
+  "keywords": ["mcp", "oauth", "dcr", "authorization"],
+  "author": "",
+  "license": "MIT"
+}
