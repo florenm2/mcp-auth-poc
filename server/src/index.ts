@@ -4,6 +4,7 @@ import cors from 'cors';
 import { handleClientRegistration } from './dcr.js';
 import { handleAuthorize, handleToken } from './oauth.js';
 import { MCPAuthServer } from './mcp-server.js';
+import { storage } from './storage.js';
 
 const HTTP_PORT = process.env.HTTP_PORT || 3000;
 const USE_STDIO = process.env.USE_STDIO === 'true';
@@ -11,6 +12,9 @@ const USE_STDIO = process.env.USE_STDIO === 'true';
 async function main() {
   console.log('🎯 MCP Authorization Server POC');
   console.log('================================\n');
+
+  // Initialize storage
+  await storage.init();
 
   if (USE_STDIO) {
     // Run in stdio mode for MCP client connection

@@ -12,7 +12,9 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
     "axios": "^1.6.2",
-    "open": "^10.0.3"
+    "open": "^10.0.3",
+    "express": "^4.18.2",
+    "mcp-auth-shared": "file:../shared"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

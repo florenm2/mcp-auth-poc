@@ -1,5 +1,6 @@
-// In-memory storage for clients, auth codes, and tokens
+// Storage for clients, auth codes, and tokens with file persistence
 import { ClientRegistration, OAuthTokenResponse } from 'mcp-auth-shared';
+import { FileStorage } from './file-storage.js';
 
 export interface RegisteredClient extends ClientRegistration {
   client_name?: string;
@@ -28,10 +29,21 @@ class Storage {
   private clients: Map<string, RegisteredClient> = new Map();
   private authCodes: Map<string, AuthorizationCode> = new Map();
   private accessTokens: Map<string, AccessToken> = new Map();
+  private fileStorage = new FileStorage();
+  private initialized = false;
+
+  async init(): Promise<void> {
+    if (this.initialized) return;
+    this.clients = await this.fileStorage.loadClients();
+    this.authCodes = await this.fileStorage.loadCodes();
+    this.accessTokens = await this.fileStorage.loadTokens();
+    this.initialized = true;
+  }
 
   // Client registration
   registerClient(client: RegisteredClient): void {
     this.clients.set(client.client_id, client);
+    this.fileStorage.saveClients(this.clients).catch(console.error);
   }
 
   getClient(client_id: string): RegisteredClient | undefined {
@@ -46,6 +58,7 @@ class Storage {
   // Authorization codes
   storeAuthCode(authCode: AuthorizationCode): void {
     this.authCodes.set(authCode.code, authCode);
+    this.fileStorage.saveCodes(this.authCodes).catch(console.error);
   }
 
   getAuthCode(code: string): AuthorizationCode | undefined {
@@ -54,11 +67,13 @@ class Storage {
 
   deleteAuthCode(code: string): void {
     this.authCodes.delete(code);
+    this.fileStorage.saveCodes(this.authCodes).catch(console.error);
   }
 
   // Access tokens
   storeAccessToken(token: AccessToken): void {
     this.accessTokens.set(token.access_token, token);
+    this.fileStorage.saveTokens(this.accessTokens).catch(console.error);
   }
 
   getAccessToken(access_token: string): AccessToken | undefined {

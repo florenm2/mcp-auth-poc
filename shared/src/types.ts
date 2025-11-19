@@ -7,6 +7,9 @@ export interface ClientRegistration {
   registration_client_uri?: string;
   client_id_issued_at?: number;
   client_secret_expires_at?: number;
+  client_name?: string;
+  redirect_uris?: string[];
+  grant_types?: string[];
 }
 
 export interface OAuthTokenResponse {
