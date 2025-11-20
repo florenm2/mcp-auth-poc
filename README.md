@@ -131,6 +131,26 @@ Response: { echo: 'Hello from authenticated client!', authorized: true }
 ✅ Authorization flow complete!
 ```
 
+### Quick Demo: Testing Individual Tools
+
+If you want to test the MCP tools directly with an access token, use the demo script:
+
+**Step 1:** Get an access token using the steps above (or the curl commands below)
+
+**Step 2:** Run the demo script:
+```bash
+cd client
+npx tsx src/demo-tools.ts <your-access-token>
+```
+
+This will demonstrate:
+- 📋 **tools/list** - List available tools (no auth)
+- 🔓 **public_info** - Call public tool (no auth)
+- ❌ **echo without token** - Fails with unauthorized error
+- ✅ **echo with token** - Succeeds with valid token
+
+See `client/src/demo-tools.ts` for the implementation.
+
 ## Architecture
 
 ### Server Components
